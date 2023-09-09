@@ -17,15 +17,27 @@ DelayPluginAudioProcessorEditor::DelayPluginAudioProcessorEditor (DelayPluginAud
     // editor's size to whatever you need it to be.
     setSize (400, 300);
 
-    waveZoom.setRange(12000.0f, 48000.0f, 100.0f);
-    waveZoom.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-    waveZoom.setTextBoxStyle(juce:: Slider::TextBoxBelow, true, 50, 20);
-    addAndMakeVisible(waveZoom);
+    delayTime.setRange(6000.0f, 48000.0f, 100.0f);
+    delayTime.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    delayTime.setTextBoxStyle(juce:: Slider::TextBoxBelow, true, 50, 20);
+    addAndMakeVisible(delayTime);
 
-    waveZoom.onValueChange = [this]()
+    feedback.setRange(0.0f, 0.9f, 0.05f);
+    feedback.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    feedback.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    addAndMakeVisible(feedback);
+
+
+    delayTime.onValueChange = [this]()
     {
-        audioProcessor.delay.setDelay((float)waveZoom.getValue());
+        audioProcessor.delay.setDelay((float)delayTime.getValue());
     };
+
+    feedback.onValueChange = [this]()
+    {
+        audioProcessor.feedback = ((float)feedback.getValue());
+    };
+
 }
 
 DelayPluginAudioProcessorEditor::~DelayPluginAudioProcessorEditor()
@@ -47,5 +59,7 @@ void DelayPluginAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    waveZoom.setBounds(getLocalBounds().withSizeKeepingCentre(getWidth() * 0.5, getHeight() * 0.5));
+    delayTime.setBounds(getLocalBounds().withSizeKeepingCentre(getWidth() * 0.5, getHeight() * 0.5));
+    feedback.setBounds(delayTime.getX() + 10, delayTime.getY(),100,200);
+    
 }

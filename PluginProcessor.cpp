@@ -19,7 +19,7 @@ DelayPluginAudioProcessor::DelayPluginAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),feedback(0.0f)
 #endif
 {
 }
@@ -157,7 +157,7 @@ void DelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         for (int i = 0; i < buffer.getNumSamples(); i++)
         {
             float outDelay = delay.popSample(channel);
-            float inDelay = inSamples[i] + (0.5f * outDelay);
+            float inDelay = inSamples[i] + (feedback * outDelay);
             delay.pushSample(channel, inDelay);
             outSamples[i] = inSamples[i] + outDelay;
         }
