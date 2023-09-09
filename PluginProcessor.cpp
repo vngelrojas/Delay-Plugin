@@ -104,6 +104,10 @@ void DelayPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     delay.reset();
     delay.setDelay(24000);
     delay.prepare(spec);
+
+    delay2.reset();
+    delay2.setDelay(24000);
+    delay2.prepare(spec);
 }
 
 void DelayPluginAudioProcessor::releaseResources()
@@ -157,9 +161,15 @@ void DelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
         for (int i = 0; i < buffer.getNumSamples(); i++)
         {
             float outDelay = delay.popSample(channel);
+            float outDelay2 = delay2.popSample(channel);
+
             float inDelay = inSamples[i] + (feedback * outDelay);
+            float inDelay2 = inSamples[i] + (feedback * outDelay2);
+
             delay.pushSample(channel, inDelay);
-            outSamples[i] = inSamples[i] + outDelay;
+            delay2.pushSample(channel, inDelay2);
+
+            outSamples[i] = inSamples[i] + outDelay + outDelay2;
         }
     }
 }

@@ -31,6 +31,7 @@ DelayPluginAudioProcessorEditor::DelayPluginAudioProcessorEditor (DelayPluginAud
     delayTime.onValueChange = [this]()
     {
         audioProcessor.delay.setDelay((float)delayTime.getValue());
+        audioProcessor.delay2.setDelay((float)delayTime.getValue()*0.75f);
     };
 
     feedback.onValueChange = [this]()
