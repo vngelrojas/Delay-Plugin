@@ -95,6 +95,14 @@ void DelayPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+
+    juce::dsp::ProcessSpec spec;
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = getTotalNumInputChannels();
+
+    delay.reset();
+    delay.prepare(spec);
 }
 
 void DelayPluginAudioProcessor::releaseResources()
