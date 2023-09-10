@@ -25,7 +25,7 @@ DelayPluginAudioProcessorEditor::DelayPluginAudioProcessorEditor (DelayPluginAud
 
     delayTime.onValueChange = [this]()
     {
-       //audioProcessor.fourHead.setBpm(delayTime.getValue());
+       audioProcessor.fourHead.setBpm(delayTime.getValue());
     };
 
     // Feedback slider
@@ -60,8 +60,13 @@ DelayPluginAudioProcessorEditor::DelayPluginAudioProcessorEditor (DelayPluginAud
             audioProcessor.fourHead.toggleHead(i);
         };
     }
-
+    // Get host bpm button
     hostBpmButton.setButtonText("Host BPM");
+    hostBpmButton.onClick = [this]()
+    {
+        audioProcessor.fourHead.toggleBpmHostFlag();
+    };
+    addAndMakeVisible(hostBpmButton);
 
 
 }
@@ -92,5 +97,6 @@ void DelayPluginAudioProcessorEditor::resized()
     {
         headToggles[i].setBounds(delayTime.getX() + 50 + i * 50, delayTime.getY() - 40, 50, 50);
     }
+    hostBpmButton.setBounds(10, headToggles[4].getY(), 50, 50);
     
 }

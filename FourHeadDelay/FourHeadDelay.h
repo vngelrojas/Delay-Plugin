@@ -49,7 +49,7 @@ public:
     {
         this->feedback = 0;
         this->sampleRate = 44100.0f;
-        this->bpm = 0;
+        this->bpm = 120;
         this->getBpm = false;
     }
 

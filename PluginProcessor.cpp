@@ -153,12 +153,19 @@ void DelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
     juce::dsp::AudioBlock<float> dryBlock(buffer);
     dryWet.pushDrySamples(dryBlock);
 
-    double bpm{ 120 };
-    if (auto hostBpm = *getPlayHead()->getPosition()->getBpm())
+    // If user wants to get bpm from host, do so 
+    if (fourHead.getBpmFlag() == true)
     {
-        bpm = hostBpm;
-        fourHead.setBpm(bpm);
+        // Reset flag to false
+        fourHead.toggleBpmHostFlag();
+        double bpm{ 120 };
+        if (auto hostBpm = *getPlayHead()->getPosition()->getBpm())
+        {
+            bpm = hostBpm;
+            fourHead.setBpm(bpm);
+        }
     }
+ 
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
