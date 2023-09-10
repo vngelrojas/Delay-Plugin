@@ -79,7 +79,7 @@ public:
         {
             heads[i].feedback = this->feedback;
             heads[i].delay.setDelay((i + 0.25 - i * 0.75) * this->sampleRate);
-            if (headState[i])
+            if (headState[i] == true)
                 allDelaySignals += heads[i].process(channel,in);
         }
 
@@ -94,9 +94,18 @@ public:
     {
         this->sampleRate = sampleRate;
     }
+    void toggleHead(int headNumber)
+    {
+        // Check for valid index
+        if (headNumber > 3 || headNumber < 0)
+            return;
+
+        // Flip state of delay head
+        headState[headNumber] = !headState[headNumber];
+    }
 private:
     DelayHead heads[4];
-    bool headState[4] = {false,true,false,true};
+    bool headState[4] = {false,false,false,false};
     float feedback;
     float sampleRate;
 
