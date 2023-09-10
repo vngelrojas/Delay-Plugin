@@ -60,7 +60,7 @@ public:
     FourHeadDelay fourHead;
     float feedback;
     juce::dsp::DryWetMixer<float> dryWet{ 0 };
-
+   
 private:
     
     //==============================================================================
