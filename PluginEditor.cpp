@@ -18,15 +18,14 @@ DelayPluginAudioProcessorEditor::DelayPluginAudioProcessorEditor (DelayPluginAud
     setSize (400, 300);
     
     // Delay time slider
-    delayTime.setRange(6000.0f, 48000.0f, 100.0f);
+    delayTime.setRange(0.0f, 1000.0f, 1.0f);
     delayTime.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
     delayTime.setTextBoxStyle(juce:: Slider::TextBoxBelow, true, 50, 20);
     addAndMakeVisible(delayTime);
 
     delayTime.onValueChange = [this]()
     {
-
-        audioProcessor.fourHead.setSampleRate((float)delayTime.getValue());
+       //audioProcessor.fourHead.setBpm(delayTime.getValue());
     };
 
     // Feedback slider
@@ -62,6 +61,7 @@ DelayPluginAudioProcessorEditor::DelayPluginAudioProcessorEditor (DelayPluginAud
         };
     }
 
+    hostBpmButton.setButtonText("Host BPM");
 
 
 }

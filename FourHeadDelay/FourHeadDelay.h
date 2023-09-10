@@ -49,7 +49,8 @@ public:
     {
         this->feedback = 0;
         this->sampleRate = 44100.0f;
-
+        this->bpm = 0;
+        this->getBpm = false;
     }
 
     FourHeadDelay(float sampleRate)
@@ -60,13 +61,14 @@ public:
 
     void prepare(const juce::dsp::ProcessSpec& spec) 
     {
-      
+
+        this->sampleRate = spec.sampleRate;
+
         for (int i = 0; i < 4; i++)
         {
             heads[i].delay.reset();
             heads[i].delay.prepare(spec);
         }
-        this->sampleRate = spec.sampleRate;
     }
 
     float process(int channel, float in)
@@ -78,7 +80,7 @@ public:
         for (int i = 0; i < 4; i++)
         {
             heads[i].feedback = this->feedback;
-            heads[i].delay.setDelay((i + 0.25 - i * 0.75) * this->sampleRate);
+            heads[i].delay.setDelay((i + 0.25 - i * 0.75) * (this->sampleRate * (60 / bpm)));
             if (headState[i] == true)
                 allDelaySignals += heads[i].process(channel,in);
         }
@@ -103,10 +105,24 @@ public:
         // Flip state of delay head
         headState[headNumber] = !headState[headNumber];
     }
+    void setBpm(double bpm)
+    {
+        this->bpm = bpm;
+    }
+    bool getBpmFlag()
+    {
+        return getBpm;
+    }
+    void toggleBpmHostFlag()
+    {
+        getBpm = !getBpm;
+    }
 private:
     DelayHead heads[4];
     bool headState[4] = {false,false,false,false};
     float feedback;
     float sampleRate;
+    double bpm;
+    bool getBpm;
 
 };
