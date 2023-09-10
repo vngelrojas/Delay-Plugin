@@ -56,13 +56,13 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-    juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delay{96000};
-    juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delay2{ 96000 };
+ 
     FourHeadDelay fourHead;
     float feedback;
+    juce::dsp::DryWetMixer<float> dryWet{ 0 };
 
 private:
-    juce::dsp::DryWetMixer<float> dryWet{0};
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DelayPluginAudioProcessor)
 };

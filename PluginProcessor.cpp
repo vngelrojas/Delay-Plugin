@@ -161,17 +161,6 @@ void DelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
 
         for (int i = 0; i < buffer.getNumSamples(); i++)
         {
-           /* float outDelay = delay.popSample(channel);
-            float outDelay2 = delay2.popSample(channel);
-
-            float inDelay = inSamples[i] + (feedback * outDelay);
-            float inDelay2 = inSamples[i] + (feedback * outDelay2);
-
-            delay.pushSample(channel, inDelay);
-            delay2.pushSample(channel, inDelay2);
-
-            outSamples[i] = inSamples[i] + outDelay + outDelay2;*/
-
             outSamples[i] = fourHead.process(channel, inSamples[i]);
         }
     }

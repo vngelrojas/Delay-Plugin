@@ -30,6 +30,7 @@ private:
     DelayPluginAudioProcessor& audioProcessor;
     juce::Slider delayTime;
     juce::Slider feedback;
+    juce::Slider dryWet;
     juce::ToggleButton headToggles[4];
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DelayPluginAudioProcessorEditor)
