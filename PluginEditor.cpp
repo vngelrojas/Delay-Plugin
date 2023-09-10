@@ -32,6 +32,7 @@ DelayPluginAudioProcessorEditor::DelayPluginAudioProcessorEditor (DelayPluginAud
     // Delay head toggle buttons
     for (int i = 0; i < 4; i++)
     {
+        headToggles[i].setButtonText("head " + std::to_string(1 + i));
         addAndMakeVisible(headToggles[i]);
         headToggles[i].onClick = [this,i]()
         {
@@ -76,7 +77,7 @@ void DelayPluginAudioProcessorEditor::resized()
     feedback.setBounds(delayTime.getX() + 10, delayTime.getY(),100,200);
     for (int i = 0; i < 4; i++)
     {
-        headToggles[i].setBounds(delayTime.getX() + 40 + i * 20, delayTime.getY() - 40, 50, 50);
+        headToggles[i].setBounds(delayTime.getX() + 50 + i * 50, delayTime.getY() - 40, 50, 50);
     }
     
 }
