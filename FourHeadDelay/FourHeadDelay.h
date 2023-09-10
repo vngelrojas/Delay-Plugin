@@ -9,19 +9,22 @@
 */
 
 #pragma once
+
 #include <JuceHeader.h>
-template <typename SampleType, typename InterpolationType = juce::dsp::DelayLineInterpolationTypes::Linear>
+
 class FourHeadDelay
 {
 private:
+    
     struct DelayHead
     {
-        juce::dsp::DelayLine<SampleType, InterpolationType> delay{96000};
+        
+        juce::dsp::DelayLine<float, juce::dsp::DelayLineInterpolationTypes::Linear> delay{96000};
         float currentDelay;
         float delayTarget;
         float feedback;
        
-        float proccess(int channel,float inSample)
+        float process(int channel,float inSample)
         {
             
             float outSample;
@@ -38,21 +41,30 @@ private:
 
 
     };
-
+    
+   
+   
 public:
     FourHeadDelay()
     {
         this->feedback = 0;
         this->sampleRate = 44100.0f;
+
     }
+
+    FourHeadDelay(float sampleRate)
+    {
+        this->feedback = 0;
+        this->sampleRate = sampleRate;
+    }
+
     void prepare(const juce::dsp::ProcessSpec& spec) 
     {
       
         for (int i = 0; i < 4; i++)
         {
             heads[i].delay.reset();
-            heads[i].delay.prepare(context);
-         
+            heads[i].delay.prepare(spec);
         }
     }
 
@@ -73,9 +85,10 @@ public:
         return allDelaySignals;
      
     }
+    
 private:
-    DelayHead heads [4];
-    bool headState[4];
+    DelayHead heads[4];
+    bool headState[4] = {false,true,false,true};
     float feedback;
     float sampleRate;
 
