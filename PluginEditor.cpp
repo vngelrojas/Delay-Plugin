@@ -32,11 +32,12 @@ DelayPluginAudioProcessorEditor::DelayPluginAudioProcessorEditor (DelayPluginAud
     {
         audioProcessor.delay.setDelay((float)delayTime.getValue());
         audioProcessor.delay2.setDelay((float)delayTime.getValue()*0.75f);
+        audioProcessor.fourHead.setSampleRate((float)delayTime.getValue());
     };
 
     feedback.onValueChange = [this]()
     {
-        audioProcessor.feedback = ((float)feedback.getValue());
+        audioProcessor.fourHead.setFeedback((float)feedback.getValue());
     };
 
 }

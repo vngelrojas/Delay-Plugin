@@ -29,7 +29,7 @@ private:
             
             float outSample;
 
-            delay.setDelay(currentDelay);
+            //delay.setDelay(currentDelay);
 
             outSample = delay.popSample(channel);
 
@@ -66,6 +66,7 @@ public:
             heads[i].delay.reset();
             heads[i].delay.prepare(spec);
         }
+        this->sampleRate = spec.sampleRate;
     }
 
     float process(int channel, float in)
@@ -77,12 +78,12 @@ public:
         for (int i = 0; i < 4; i++)
         {
             heads[i].feedback = this->feedback;
-            heads[i].delayTarget = (i + 0.25 - i * 0.75) * this->sampleRate;
+            heads[i].delay.setDelay((i + 0.25 - i * 0.75) * this->sampleRate);
             if (headState[i])
                 allDelaySignals += heads[i].process(channel,in);
         }
 
-        return allDelaySignals;
+        return in + allDelaySignals;
      
     }
     void setFeedback(float feedback)

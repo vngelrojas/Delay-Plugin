@@ -108,6 +108,8 @@ void DelayPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     delay2.reset();
     delay2.setDelay(24000);
     delay2.prepare(spec);
+
+    fourHead.prepare(spec);
 }
 
 void DelayPluginAudioProcessor::releaseResources()
@@ -160,7 +162,7 @@ void DelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
 
         for (int i = 0; i < buffer.getNumSamples(); i++)
         {
-            float outDelay = delay.popSample(channel);
+           /* float outDelay = delay.popSample(channel);
             float outDelay2 = delay2.popSample(channel);
 
             float inDelay = inSamples[i] + (feedback * outDelay);
@@ -169,7 +171,9 @@ void DelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
             delay.pushSample(channel, inDelay);
             delay2.pushSample(channel, inDelay2);
 
-            outSamples[i] = inSamples[i] + outDelay + outDelay2;
+            outSamples[i] = inSamples[i] + outDelay + outDelay2;*/
+
+            outSamples[i] = fourHead.process(channel, inSamples[i]);
         }
     }
 }
