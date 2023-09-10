@@ -85,7 +85,14 @@ public:
         return allDelaySignals;
      
     }
-    
+    void setFeedback(float feedback)
+    {
+        this->feedback = feedback;
+    }
+    void setSampleRate(float sampleRate)
+    {
+        this->sampleRate = sampleRate;
+    }
 private:
     DelayHead heads[4];
     bool headState[4] = {false,true,false,true};
