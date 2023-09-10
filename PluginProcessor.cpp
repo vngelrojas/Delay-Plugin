@@ -101,14 +101,10 @@ void DelayPluginAudioProcessor::prepareToPlay (double sampleRate, int samplesPer
     spec.maximumBlockSize = samplesPerBlock;
     spec.numChannels = getTotalNumInputChannels();
 
-    delay.reset();
-    delay.setDelay(24000);
-    delay.prepare(spec);
 
-    delay2.reset();
-    delay2.setDelay(24000);
-    delay2.prepare(spec);
-
+    dryWet.prepare(spec);
+    dryWet.setWetLatency(0);
+    dryWet.setWetMixProportion(1.0f);
     fourHead.prepare(spec);
 }
 
@@ -154,7 +150,10 @@ void DelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    
+    juce::dsp::AudioBlock<float> dryBlock(buffer);
+    dryWet.pushDrySamples(dryBlock);
+
+
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* inSamples = buffer.getReadPointer(channel);
@@ -176,6 +175,10 @@ void DelayPluginAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
             outSamples[i] = fourHead.process(channel, inSamples[i]);
         }
     }
+    juce::dsp::AudioBlock<float> wetBlock(buffer);
+
+    dryWet.mixWetSamples(wetBlock);
+
 }
 
 //==============================================================================

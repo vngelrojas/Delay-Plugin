@@ -83,7 +83,7 @@ public:
                 allDelaySignals += heads[i].process(channel,in);
         }
 
-        return in + allDelaySignals;
+        return allDelaySignals;
      
     }
     void setFeedback(float feedback)

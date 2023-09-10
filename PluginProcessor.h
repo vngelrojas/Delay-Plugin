@@ -62,6 +62,7 @@ public:
     float feedback;
 
 private:
+    juce::dsp::DryWetMixer<float> dryWet{0};
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DelayPluginAudioProcessor)
 };
